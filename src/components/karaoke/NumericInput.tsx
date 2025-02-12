@@ -13,7 +13,7 @@ const NumericInput = ({
   onCodeChange = () => {},
   onCodeSubmit = () => {},
   initialValue = "",
-  maxLength = 4,
+  maxLength = 5,
 }: NumericInputProps) => {
   const [value, setValue] = useState(initialValue);
 
@@ -52,7 +52,7 @@ const NumericInput = ({
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         className="text-6xl text-center h-20 bg-gray-800 text-white border-gray-700 focus:border-blue-500"
-        placeholder="0000"
+        placeholder="00000"
         maxLength={maxLength}
         autoFocus
       />

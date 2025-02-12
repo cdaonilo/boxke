@@ -12,11 +12,15 @@ import { Coins, Volume2, Settings2 } from "lucide-react";
 interface SettingsMenuProps {
   isOpen?: boolean;
   onClose?: () => void;
+  showNotes?: boolean;
+  onShowNotesChange?: (show: boolean) => void;
 }
 
 const SettingsMenu = ({
   isOpen = true,
   onClose = () => {},
+  showNotes = true,
+  onShowNotesChange = () => {},
 }: SettingsMenuProps) => {
   const [credits, setCredits] = useState(10);
   const [volume, setVolume] = useState(80);
@@ -108,6 +112,14 @@ const SettingsMenu = ({
                     <Switch
                       checked={highQuality}
                       onCheckedChange={setHighQuality}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <span>Show Score Notes</span>
+                    <Switch
+                      checked={showNotes}
+                      onCheckedChange={onShowNotesChange}
                     />
                   </div>
                 </div>

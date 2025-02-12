@@ -6,6 +6,7 @@ interface InfoBarProps {
   artistName?: string;
   songTitle?: string;
   firstVerse?: string;
+  tone?: number;
 }
 
 const InfoBar = ({
@@ -13,6 +14,7 @@ const InfoBar = ({
   artistName = "Unknown Artist",
   songTitle = "Untitled Song",
   firstVerse = "First verse preview will appear here...",
+  tone,
 }: InfoBarProps) => {
   return (
     <div className="fixed bottom-0 left-0 right-0 h-16 bg-black text-white">
@@ -22,6 +24,11 @@ const InfoBar = ({
           <div className="text-center">
             <div className="text-xs uppercase">CÓDIGO</div>
             <div className="text-2xl font-bold">{songCode || "000000"}</div>
+            {tone !== undefined && tone !== 0 && (
+              <div className="text-xs text-primary">
+                Tone: {tone > 0 ? `+${tone}` : tone}
+              </div>
+            )}
           </div>
         </div>
 

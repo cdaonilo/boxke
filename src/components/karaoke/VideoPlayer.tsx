@@ -8,6 +8,7 @@ interface VideoPlayerProps {
   videoUrl?: string;
   onVideoEnd?: () => void;
   autoPlay?: boolean;
+  tone?: number;
 }
 
 const VideoPlayer = ({
