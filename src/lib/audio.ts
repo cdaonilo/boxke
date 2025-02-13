@@ -40,26 +40,37 @@ export class AudioProcessor {
   setPitch(semitones: number) {
     if (!this.pitchNode) return;
 
-    const pitch = Math.pow(2, semitones / 12);
-    let phase = 0;
+    try {
+      const pitch = Math.pow(2, semitones / 12);
+      let phase = 0;
+      let buffer = new Float32Array(2048); // Smaller buffer size
 
-    this.pitchNode.onaudioprocess = (e: AudioProcessingEvent) => {
-      const input = e.inputBuffer.getChannelData(0);
-      const output = e.outputBuffer.getChannelData(0);
+      this.pitchNode.onaudioprocess = (e: AudioProcessingEvent) => {
+        const input = e.inputBuffer.getChannelData(0);
+        const output = e.outputBuffer.getChannelData(0);
 
-      for (let i = 0; i < input.length; i++) {
-        // Simple pitch shifting using phase vocoder technique
-        const index = Math.floor(phase);
-        if (index < input.length) {
-          output[i] = input[index];
+        // Process in smaller chunks
+        const chunkSize = Math.min(input.length, 512);
+        for (let i = 0; i < input.length; i += chunkSize) {
+          const end = Math.min(i + chunkSize, input.length);
+          for (let j = i; j < end; j++) {
+            const index = Math.floor(phase) % input.length;
+            output[j] = input[index];
+            phase += pitch;
+          }
         }
-        phase += pitch;
-      }
 
-      if (phase >= input.length) {
-        phase -= input.length;
+        if (phase >= input.length) {
+          phase -= input.length;
+        }
+      };
+    } catch (error) {
+      console.error("Error in pitch shifting:", error);
+      // Fallback to simple playback rate change
+      if (this.connectedElement instanceof HTMLMediaElement) {
+        this.connectedElement.playbackRate = Math.pow(2, semitones / 12);
       }
-    };
+    }
   }
 
   disconnect() {

@@ -64,13 +64,25 @@ const VideoPlayer = ({
   // Handle audio processing separately
   useEffect(() => {
     if (videoRef.current) {
-      audioProcessor.connectToVideo(videoRef.current);
-      if (tone) {
-        audioProcessor.setPitch(tone);
+      try {
+        audioProcessor.connectToVideo(videoRef.current);
+        if (tone) {
+          audioProcessor.setPitch(tone);
+        }
+      } catch (error) {
+        console.error("Failed to initialize audio processor:", error);
+        // Fallback: just play video without pitch shifting
+        if (videoRef.current) {
+          videoRef.current.playbackRate = Math.pow(2, (tone || 0) / 12);
+        }
       }
     }
     return () => {
-      audioProcessor.disconnect();
+      try {
+        audioProcessor.disconnect();
+      } catch (error) {
+        console.error("Error disconnecting audio processor:", error);
+      }
     };
   }, [tone]);
 
