@@ -44,10 +44,17 @@ const Home = () => {
       } else if (e.key.toLowerCase() === "w") {
         setCredits((prev) => prev + 1);
       } else if (e.key.toLowerCase() === "t" && currentSong) {
-        setCurrentSong((prev) => ({
-          ...prev!,
-          tone: ((prev?.tone || 0) + 1) % 12,
-        }));
+        // Shift + T decreases tone, T increases tone
+        const toneChange = e.shiftKey ? -1 : 1;
+        setCurrentSong((prev) => {
+          const newTone = (prev?.tone || 0) + toneChange;
+          // Keep tone between -12 and +12 semitones
+          if (newTone > 12 || newTone < -12) return prev;
+          return {
+            ...prev!,
+            tone: newTone,
+          };
+        });
       }
     };
 
