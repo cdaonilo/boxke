@@ -14,7 +14,7 @@ const InfoBar = ({
   artistName = "Unknown Artist",
   songTitle = "Untitled Song",
   firstVerse = "First verse preview will appear here...",
-  tone,
+  tone = 0,
 }: InfoBarProps) => {
   return (
     <div className="fixed bottom-0 left-0 right-0 h-16 bg-black text-white">
@@ -24,11 +24,6 @@ const InfoBar = ({
           <div className="text-center">
             <div className="text-xs uppercase">CÓDIGO</div>
             <div className="text-2xl font-bold">{songCode || "000000"}</div>
-            {tone !== undefined && tone !== 0 && (
-              <div className="text-xs text-primary">
-                Tone: {tone > 0 ? `+${tone}` : tone}
-              </div>
-            )}
           </div>
         </div>
 
@@ -48,6 +43,11 @@ const InfoBar = ({
           </div>
         </div>
       </div>
+      {tone !== 0 && (
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-2 bg-yellow-500/90 text-black px-3 py-1 rounded-full text-sm font-medium">
+          Tone: {tone > 0 ? `+${tone}` : tone}
+        </div>
+      )}
     </div>
   );
 };

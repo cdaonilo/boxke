@@ -33,9 +33,6 @@ const Home = () => {
   const [queue, setQueue] = useState<QueuedSong[]>([]);
   const [error, setError] = useState<string>("");
   const [credits, setCredits] = useState<number>(0);
-  const [showToneIndicator, setShowToneIndicator] = useState(false);
-  const [toneIndicatorTimeout, setToneIndicatorTimeout] =
-    useState<NodeJS.Timeout>();
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -47,23 +44,17 @@ const Home = () => {
       } else if (e.key.toLowerCase() === "w") {
         setCredits((prev) => prev + 1);
       } else if (e.key.toLowerCase() === "t" && currentSong) {
-        setCurrentSong((prev) => ({
-          ...prev!,
-          tone: ((prev?.tone || 0) + 1) % 12,
-        }));
-        setShowToneIndicator(true);
-
-        // Clear existing timeout
-        if (toneIndicatorTimeout) {
-          clearTimeout(toneIndicatorTimeout);
-        }
-
-        // Set new timeout
-        const timeout = setTimeout(() => {
-          setShowToneIndicator(false);
-        }, 5000);
-
-        setToneIndicatorTimeout(timeout);
+        // Shift + T decreases tone, T increases tone
+        const toneChange = e.shiftKey ? -1 : 1;
+        setCurrentSong((prev) => {
+          const newTone = (prev?.tone || 0) + toneChange;
+          // Keep tone between -12 and +12 semitones
+          if (newTone > 12 || newTone < -12) return prev;
+          return {
+            ...prev!,
+            tone: newTone,
+          };
+        });
       }
     };
 
@@ -187,9 +178,6 @@ const Home = () => {
 
       {error && <ErrorMessage message={error} onClose={() => setError("")} />}
       <CreditsDisplay credits={credits} />
-      {showToneIndicator && currentSong && (
-        <ToneIndicator tone={currentSong.tone || 0} />
-      )}
     </div>
   );
 };
