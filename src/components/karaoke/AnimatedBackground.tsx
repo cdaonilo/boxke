@@ -8,75 +8,34 @@ interface AnimatedBackgroundProps {
 const AnimatedBackground = ({ isActive = true }: AnimatedBackgroundProps) => {
   return (
     <div className="fixed inset-0 bg-black overflow-hidden">
-      <motion.div
+      <div
         className="absolute inset-0"
-        initial={{ opacity: 0 }}
-        animate={{
+        style={{
           opacity: isActive ? 1 : 0,
+          transition: "opacity 1s",
         }}
-        transition={{ duration: 1 }}
       >
-        {/* Gradient orbs */}
-        <motion.div
-          className="absolute w-[500px] h-[500px] rounded-full bg-gradient-to-r from-purple-500/30 to-blue-500/30 blur-3xl"
-          animate={{
-            x: [0, 100, 0],
-            y: [0, 50, 0],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear",
-          }}
+        {/* Simple gradient background instead of animated elements */}
+        <div
+          className="absolute inset-0"
           style={{
-            left: "20%",
-            top: "20%",
-          }}
-        />
-        <motion.div
-          className="absolute w-[400px] h-[400px] rounded-full bg-gradient-to-r from-pink-500/30 to-purple-500/30 blur-3xl"
-          animate={{
-            x: [0, -50, 0],
-            y: [0, 100, 0],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          style={{
-            right: "30%",
-            bottom: "20%",
+            background:
+              "linear-gradient(45deg, rgba(76, 29, 149, 0.1) 0%, rgba(30, 64, 175, 0.1) 100%)",
           }}
         />
 
-        {/* Floating particles */}
-        {Array.from({ length: 20 }).map((_, index) => (
-          <motion.div
+        {/* Static particles instead of animated ones */}
+        {Array.from({ length: 10 }).map((_, index) => (
+          <div
             key={index}
             className="absolute w-1 h-1 bg-white/20 rounded-full"
-            initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-            }}
-            animate={{
-              y: [
-                Math.random() * window.innerHeight,
-                Math.random() * window.innerHeight,
-              ],
-              x: [
-                Math.random() * window.innerWidth,
-                Math.random() * window.innerWidth,
-              ],
-            }}
-            transition={{
-              duration: 10 + Math.random() * 20,
-              repeat: Infinity,
-              ease: "linear",
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
             }}
           />
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 };

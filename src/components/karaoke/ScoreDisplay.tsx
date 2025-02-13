@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { Card } from "../ui/card";
 import { PartyPopper, Frown, Star } from "lucide-react";
 
@@ -47,49 +46,39 @@ const ScoreDisplay = ({
     return () => clearTimeout(timeout);
   }, [showNotes, accuracy, audioPlayed, onClose]);
 
-  const getScoreAnimation = () => {
+  const getScoreIcon = () => {
     if (accuracy >= 90) {
       return (
-        <motion.div
-          animate={{
-            rotate: [0, 10, -10, 0],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{ repeat: Infinity, duration: 1 }}
-        >
+        <div className="transform scale-110 transition-transform duration-300">
           <PartyPopper className="w-16 h-16 text-yellow-500 mx-auto" />
-        </motion.div>
+        </div>
       );
     } else if (accuracy >= 60) {
       return (
-        <motion.div
-          animate={{ scale: [1, 1.1, 1] }}
-          transition={{ repeat: Infinity, duration: 1 }}
-        >
+        <div className="transform scale-105 transition-transform duration-300">
           <Star className="w-16 h-16 text-blue-500 mx-auto" />
-        </motion.div>
+        </div>
       );
     } else {
       return (
-        <motion.div
-          animate={{ y: [0, -5, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
-        >
+        <div className="transform translate-y-1 transition-transform duration-300">
           <Frown className="w-16 h-16 text-red-500 mx-auto" />
-        </motion.div>
+        </div>
       );
     }
   };
+
   return (
-    <motion.div
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.8, opacity: 0 }}
+    <div
       className="fixed inset-0 flex items-center justify-center bg-black/80 z-50"
+      style={{
+        opacity: 1,
+        transition: "opacity 300ms ease-in-out",
+      }}
     >
       <Card className="w-[400px] p-6 bg-zinc-900 border-zinc-800 text-white">
         <div className="text-center space-y-4">
-          {showNotes && getScoreAnimation()}
+          {showNotes && getScoreIcon()}
           <h2 className="text-4xl font-bold">Score</h2>
           <div className="text-6xl font-bold text-primary">{score}</div>
           <div className="text-xl">Accuracy: {accuracy}%</div>
@@ -101,7 +90,7 @@ const ScoreDisplay = ({
           </button>
         </div>
       </Card>
-    </motion.div>
+    </div>
   );
 };
 
