@@ -33,9 +33,6 @@ const Home = () => {
   const [queue, setQueue] = useState<QueuedSong[]>([]);
   const [error, setError] = useState<string>("");
   const [credits, setCredits] = useState<number>(0);
-  const [showToneIndicator, setShowToneIndicator] = useState(false);
-  const [toneIndicatorTimeout, setToneIndicatorTimeout] =
-    useState<NodeJS.Timeout>();
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -51,19 +48,6 @@ const Home = () => {
           ...prev!,
           tone: ((prev?.tone || 0) + 1) % 12,
         }));
-        setShowToneIndicator(true);
-
-        // Clear existing timeout
-        if (toneIndicatorTimeout) {
-          clearTimeout(toneIndicatorTimeout);
-        }
-
-        // Set new timeout
-        const timeout = setTimeout(() => {
-          setShowToneIndicator(false);
-        }, 5000);
-
-        setToneIndicatorTimeout(timeout);
       }
     };
 
@@ -187,9 +171,6 @@ const Home = () => {
 
       {error && <ErrorMessage message={error} onClose={() => setError("")} />}
       <CreditsDisplay credits={credits} />
-      {showToneIndicator && currentSong && (
-        <ToneIndicator tone={currentSong.tone || 0} />
-      )}
     </div>
   );
 };

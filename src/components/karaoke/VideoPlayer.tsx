@@ -3,6 +3,7 @@ import { Play, Pause, SkipForward, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { useWakeLock } from "@/lib/mobile";
+import { audioProcessor } from "@/lib/audio";
 
 interface VideoPlayerProps {
   videoUrl?: string;
@@ -15,6 +16,7 @@ const VideoPlayer = ({
   videoUrl = "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
   onVideoEnd = () => {},
   autoPlay = true,
+  tone = 0,
 }: VideoPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(autoPlay);
   const [isMuted, setIsMuted] = useState(false);
@@ -53,7 +55,24 @@ const VideoPlayer = ({
         videoRef.current.pause();
       }
     }
+
+    return () => {
+      audioProcessor.disconnect();
+    };
   }, [isPlaying]);
+
+  // Handle audio processing separately
+  useEffect(() => {
+    if (videoRef.current) {
+      audioProcessor.connectToVideo(videoRef.current);
+      if (tone) {
+        audioProcessor.setPitch(tone);
+      }
+    }
+    return () => {
+      audioProcessor.disconnect();
+    };
+  }, [tone]);
 
   useEffect(() => {
     if (videoRef.current) {
