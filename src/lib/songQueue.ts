@@ -3,6 +3,7 @@ export interface QueuedSong {
   artist: string;
   title: string;
   videoUrl?: string;
+  verse?: string;
 }
 
 import { storage } from "./storage";

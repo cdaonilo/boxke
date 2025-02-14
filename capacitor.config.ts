@@ -16,10 +16,10 @@ const config: CapacitorConfig = {
     initialFocus: false,
     // Optimize for TV boxes
     hardwareAcceleration: false,
-    targetSdkVersion: 29, // Android 10
-    minSdkVersion: 24, // Android 7
-    compileSdkVersion: 29,
-    buildToolsVersion: "29.0.3",
+    targetSdkVersion: 31,
+    minSdkVersion: 19,
+    compileSdkVersion: 33,
+    buildToolsVersion: "33.0.0",
     overrideUserAgent: "MXQ-PRO-4K",
   },
 };

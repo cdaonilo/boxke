@@ -39,8 +39,8 @@ const Home = () => {
   useEffect(() => {
     // Handle Android back button
     const handleBackButton = () => {
-      if (window.navigator.app) {
-        window.navigator.app.exitApp();
+      if ("app" in window.navigator && (window.navigator as any).app?.exitApp) {
+        (window.navigator as any).app.exitApp();
       }
     };
 
