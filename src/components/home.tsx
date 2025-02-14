@@ -8,6 +8,8 @@ import ScoreDisplay from "./karaoke/ScoreDisplay";
 import QueueDisplay from "./karaoke/QueueDisplay";
 import ErrorMessage from "./karaoke/ErrorMessage";
 import CreditsDisplay from "./karaoke/CreditsDisplay";
+import { Coins } from "lucide-react";
+import { Button } from "./ui/button";
 import ToneIndicator from "./karaoke/ToneIndicator";
 import { SongQueue, type QueuedSong } from "@/lib/songQueue";
 import { songLibrary } from "@/lib/songLibrary";
@@ -38,11 +40,14 @@ const Home = () => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key.toLowerCase() === "f") {
         setShowSettings((prev) => !prev);
-      } else if (e.key.toLowerCase() === "c" && isPlaying) {
+      } else if (e.key.toLowerCase() === "c") {
+        setCredits((prev) => prev + 1);
+      } else if (e.key.toLowerCase() === "w") {
+        // Return to initial screen
         setIsPlaying(false);
         setCurrentSong(null);
-      } else if (e.key.toLowerCase() === "w") {
-        setCredits((prev) => prev + 1);
+        setShowScore(false);
+        setError("");
       } else if (e.key.toLowerCase() === "t" && currentSong) {
         // Shift + T decreases tone, T increases tone
         const toneChange = e.shiftKey ? -1 : 1;
@@ -129,6 +134,16 @@ const Home = () => {
 
       {!isPlaying && !showScore && (
         <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <div className="absolute top-4 left-1/2 -translate-x-1/2">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-white hover:bg-white/20"
+              onClick={() => setCredits((prev) => prev + 1)}
+            >
+              <Coins className="h-8 w-8 text-yellow-500" />
+            </Button>
+          </div>
           <NumericInput
             onCodeChange={handleCodeChange}
             onCodeSubmit={handleCodeSubmit}

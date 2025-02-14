@@ -1,40 +1,30 @@
 import React from "react";
-import { motion } from "framer-motion";
 
 interface AnimatedBackgroundProps {
   isActive?: boolean;
 }
 
+const useCustomBackground =
+  localStorage.getItem("useCustomBackground") === "true";
+
 const AnimatedBackground = ({ isActive = true }: AnimatedBackgroundProps) => {
   return (
-    <div className="fixed inset-0 bg-black overflow-hidden">
-      <div
-        className="absolute inset-0"
-        style={{
-          opacity: isActive ? 1 : 0,
-          transition: "opacity 1s",
-        }}
-      >
-        {/* Simple gradient background instead of animated elements */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(45deg, rgba(76, 29, 149, 0.1) 0%, rgba(30, 64, 175, 0.1) 100%)",
-          }}
-        />
-
-        {/* Static particles instead of animated ones */}
-        {Array.from({ length: 10 }).map((_, index) => (
-          <div
-            key={index}
-            className="absolute w-1 h-1 bg-white/20 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-          />
-        ))}
+    <div
+      className="fixed inset-0 overflow-hidden"
+      style={{
+        ...(useCustomBackground
+          ? {
+              backgroundImage: "url(/background.jpg)",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }
+          : { backgroundColor: "#1a365d" }),
+        opacity: isActive ? 1 : 0,
+        transition: "opacity 1s",
+      }}
+    >
+      <div className="absolute top-4 left-4 text-white/70 text-sm font-mono">
+        v1.1
       </div>
     </div>
   );

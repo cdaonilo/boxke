@@ -26,6 +26,7 @@ const SettingsMenu = ({
   const [volume, setVolume] = useState(80);
   const [autoplay, setAutoplay] = useState(true);
   const [highQuality, setHighQuality] = useState(true);
+  const [useCustomBackground, setUseCustomBackground] = useState(false);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -120,6 +121,20 @@ const SettingsMenu = ({
                     <Switch
                       checked={showNotes}
                       onCheckedChange={onShowNotesChange}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <span>Use Custom Background</span>
+                    <Switch
+                      checked={useCustomBackground}
+                      onCheckedChange={(checked) => {
+                        setUseCustomBackground(checked);
+                        localStorage.setItem(
+                          "useCustomBackground",
+                          checked.toString(),
+                        );
+                      }}
                     />
                   </div>
                 </div>
