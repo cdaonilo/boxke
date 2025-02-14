@@ -13,11 +13,9 @@ export const setupMobileApp = async () => {
       console.warn("Status bar hide failed:", e);
     }
 
-    // Handle back button
-    App.addListener("backButton", ({ canGoBack }) => {
-      if (!canGoBack) {
-        App.exitApp();
-      }
+    // Always exit app on back button for TV boxes
+    App.addListener("backButton", () => {
+      App.exitApp();
     });
 
     // Handle keyboard events
