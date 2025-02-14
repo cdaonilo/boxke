@@ -37,6 +37,15 @@ const Home = () => {
   const [credits, setCredits] = useState<number>(0);
 
   useEffect(() => {
+    // Handle Android back button
+    const handleBackButton = () => {
+      if (window.navigator.app) {
+        window.navigator.app.exitApp();
+      }
+    };
+
+    document.addEventListener("backbutton", handleBackButton);
+
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key.toLowerCase() === "f") {
         setShowSettings((prev) => !prev);
@@ -64,7 +73,10 @@ const Home = () => {
     };
 
     window.addEventListener("keydown", handleKeyPress);
-    return () => window.removeEventListener("keydown", handleKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+      document.removeEventListener("backbutton", handleBackButton);
+    };
   }, [currentSong, isPlaying]);
 
   const handleCodeChange = (code: string) => {
