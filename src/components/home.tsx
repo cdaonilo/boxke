@@ -169,7 +169,7 @@ const Home = () => {
 
   return (
     <div className="relative min-h-screen bg-black text-white">
-      <div className="absolute top-2 left-2 text-xs text-gray-500">v2.0</div>
+      <div className="absolute top-2 left-2 text-xs text-gray-500">v2.1</div>
       <AnimatedBackground isActive={!isPlaying} />
 
       {!isPlaying && !showScore && (
