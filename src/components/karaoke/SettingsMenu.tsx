@@ -124,18 +124,24 @@ const SettingsMenu = ({
                     />
                   </div>
 
-                  <div className="flex items-center justify-between">
-                    <span>Use Custom Background</span>
-                    <Switch
-                      checked={useCustomBackground}
-                      onCheckedChange={(checked) => {
-                        setUseCustomBackground(checked);
-                        localStorage.setItem(
-                          "useCustomBackground",
-                          checked.toString(),
-                        );
-                      }}
-                    />
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span>Use Custom Background</span>
+                      <Switch
+                        checked={useCustomBackground}
+                        onCheckedChange={(checked) => {
+                          setUseCustomBackground(checked);
+                          localStorage.setItem(
+                            "useCustomBackground",
+                            checked.toString(),
+                          );
+                        }}
+                      />
+                    </div>
+                    <p className="text-sm text-gray-400">
+                      Press F to toggle settings. Place background.jpg in public
+                      folder to use custom background.
+                    </p>
                   </div>
                 </div>
 

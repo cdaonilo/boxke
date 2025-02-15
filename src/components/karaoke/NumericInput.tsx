@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 
 interface NumericInputProps {
+  className?: string;
   onCodeChange?: (code: string) => void;
   onCodeSubmit?: (code: string) => void;
   initialValue?: string;
@@ -10,6 +11,7 @@ interface NumericInputProps {
 }
 
 const NumericInput = ({
+  className = "",
   onCodeChange = () => {},
   onCodeSubmit = () => {},
   initialValue = "",
@@ -45,13 +47,15 @@ const NumericInput = ({
   };
 
   return (
-    <Card className="w-[400px] h-[120px] bg-black border-gray-800 p-6 flex items-center justify-center">
+    <Card
+      className={`bg-black border-gray-800 p-2 flex items-center justify-center ${className}`}
+    >
       <Input
         type="text"
         value={value}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        className="text-6xl text-center h-20 bg-gray-800 text-white border-gray-700 focus:border-blue-500"
+        className="text-2xl text-center h-full w-full bg-gray-800 text-white border-gray-700 focus:border-blue-500"
         placeholder="00000"
         maxLength={maxLength}
         autoFocus

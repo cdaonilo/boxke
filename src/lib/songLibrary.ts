@@ -19,13 +19,35 @@ export class SongLibrary {
   }
 
   private loadDatabase() {
-    // For development, use mock songs
-    if (import.meta.env.DEV) {
-      mockSongs.forEach((song) => {
-        this.songs.set(song.code, song);
-      });
-      return;
+    // Try to load from db.ini first
+    try {
+      const content = storage.readFile("db.ini");
+      if (content) {
+        const lines = content.split("\n");
+        lines.forEach((line) => {
+          const [code, artist, title, filename] = line
+            .split("|")
+            .map((s) => s.trim());
+          if (code && artist && title && filename) {
+            this.songs.set(code, {
+              code,
+              artist,
+              title,
+              verse: "",
+              filename,
+            });
+          }
+        });
+        return;
+      }
+    } catch (error) {
+      console.error("Error loading database:", error);
     }
+
+    // Fallback to mock songs if db.ini not found or error
+    mockSongs.forEach((song) => {
+      this.songs.set(song.code, song);
+    });
 
     // For production, try to load from storage
     try {
