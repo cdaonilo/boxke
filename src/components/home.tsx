@@ -37,8 +37,12 @@ const Home = () => {
   const [credits, setCredits] = useState<number>(0);
 
   useEffect(() => {
-    // Handle Android back button
+    // Handle ESC and Android back button
     const handleBackButton = () => {
+      setIsPlaying(false);
+      setCurrentSong(null);
+      setShowScore(false);
+      setError("");
       if ("app" in window.navigator && (window.navigator as any).app?.exitApp) {
         (window.navigator as any).app.exitApp();
       }
@@ -47,6 +51,10 @@ const Home = () => {
     document.addEventListener("backbutton", handleBackButton);
 
     const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        handleBackButton();
+        return;
+      }
       if (e.key.toLowerCase() === "f") {
         setShowSettings((prev) => !prev);
       } else if (e.key.toLowerCase() === "c") {
@@ -89,9 +97,17 @@ const Home = () => {
           tone: 0,
         };
 
-        if (!currentSong && !isPlaying) {
+        if (!currentSong) {
           setCurrentSong(newSong);
           setError("");
+          setIsPlaying(true);
+          // Deduz um crédito automaticamente ao iniciar
+          if (credits > 0) {
+            setCredits((prev) => prev - 1);
+          } else {
+            setError("No credits available");
+            return;
+          }
         } else {
           songQueue.addToQueue(newSong);
           setQueue(songQueue.getQueue());
@@ -107,9 +123,20 @@ const Home = () => {
       setError("No credits available");
       return;
     }
-    if (currentSong) {
+
+    const song = songLibrary.findSong(code);
+    if (song) {
       setCredits((prev) => prev - 1);
-      setIsPlaying(true);
+      if (currentSong && isPlaying) {
+        // Se já está tocando, adiciona à fila
+        const newSong = {
+          ...song,
+          videoUrl: songLibrary.getSongUrl(song.filename),
+          tone: 0,
+        };
+        songQueue.addToQueue(newSong);
+        setQueue(songQueue.getQueue());
+      }
     } else {
       setError("Song Not Found");
     }
@@ -142,6 +169,7 @@ const Home = () => {
 
   return (
     <div className="relative min-h-screen bg-black text-white">
+      <div className="absolute top-2 left-2 text-xs text-gray-500">v1.2</div>
       <AnimatedBackground isActive={!isPlaying} />
 
       {!isPlaying && !showScore && (
@@ -179,6 +207,18 @@ const Home = () => {
         firstVerse={currentSong?.verse}
         tone={currentSong?.tone}
       />
+
+      {/* Input para próxima música quando uma estiver tocando */}
+      {isPlaying && currentSong && (
+        <div className="fixed bottom-0 right-4 mb-1">
+          <NumericInput
+            onCodeChange={() => {}}
+            onCodeSubmit={handleCodeSubmit}
+            maxLength={5}
+            className="w-32 h-14"
+          />
+        </div>
+      )}
 
       <SettingsMenu
         isOpen={showSettings}

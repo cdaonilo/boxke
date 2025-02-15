@@ -2,7 +2,7 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:versionCode="1"
-    android:versionName="1.0.0"
+    android:versionName="1.2.0"
     android:compileSdkVersion="33"
     android:compileSdkVersionCodename="13"
     package="com.karaoke.app"
