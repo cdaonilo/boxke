@@ -1,5 +1,12 @@
 // Mobile app setup and wake lock functionality
+import { requestStoragePermission } from "./permissions";
+
 export const setupMobileApp = async () => {
+  if (typeof window === "undefined" || !("Capacitor" in window)) {
+    return;
+  }
+  // Request storage permission on startup
+  await requestStoragePermission();
   try {
     // Dynamically import Capacitor modules only when needed
     const { App } = await import("@capacitor/app");

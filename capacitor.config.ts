@@ -8,6 +8,7 @@ const config: CapacitorConfig = {
     androidScheme: "https",
   },
   android: {
+    useLegacyStorage: true,
     backgroundColor: "#000000",
     screenOrientation: "landscape",
     hideLogs: true,
