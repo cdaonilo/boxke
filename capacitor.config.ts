@@ -6,6 +6,7 @@ const config: CapacitorConfig = {
   webDir: "dist",
   server: {
     androidScheme: "https",
+    cleartext: true,
   },
   android: {
     useLegacyStorage: true,
@@ -22,6 +23,8 @@ const config: CapacitorConfig = {
     compileSdkVersion: 33,
     buildToolsVersion: "33.0.0",
     overrideUserAgent: "MXQ-PRO-4K",
+    appendUserAgent: "MXQ-PRO-4K",
+    networkSecurityConfig: "@xml/network_security_config",
   },
 };
 
