@@ -155,7 +155,11 @@ const Home = () => {
 
     const nextSong = songQueue.getNextSong();
     if (nextSong) {
-      setCurrentSong(nextSong);
+      setCurrentSong({
+        ...nextSong,
+        verse: nextSong.verse || "",
+        tone: 0,
+      });
       setQueue(songQueue.getQueue());
     } else {
       setCurrentSong(null);

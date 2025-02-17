@@ -12,16 +12,19 @@ export interface SongData {
 export class SongLibrary {
   private songs: Map<string, SongData> = new Map();
   private mediaPath: string;
+  private initialized: boolean = false;
 
   constructor() {
     this.mediaPath = "/media/karaoke";
-    this.loadDatabase();
+    this.loadDatabase().catch(console.error);
   }
 
-  private loadDatabase() {
-    // Try to load from db.ini first
+  private async loadDatabase() {
+    if (this.initialized) return;
+
     try {
-      const content = storage.readFile("db.ini");
+      // Try to load from db.ini first
+      const content = await storage.readFile("db.ini");
       if (content) {
         const lines = content.split("\n");
         lines.forEach((line) => {
@@ -38,6 +41,7 @@ export class SongLibrary {
             });
           }
         });
+        this.initialized = true;
         return;
       }
     } catch (error) {
@@ -48,33 +52,15 @@ export class SongLibrary {
     mockSongs.forEach((song) => {
       this.songs.set(song.code, song);
     });
-
-    // For production, try to load from storage
-    try {
-      const content = storage.readFile("db.ini");
-      if (content) {
-        const lines = content.split("\n");
-        lines.forEach((line) => {
-          const [code, artist, title, filename] = line
-            .split("|")
-            .map((s) => s.trim());
-          if (code && artist && title && filename) {
-            this.songs.set(code, {
-              code,
-              artist,
-              title,
-              verse: "", // Verse is optional
-              filename,
-            });
-          }
-        });
-      }
-    } catch (error) {
-      console.error("Error loading database:", error);
-    }
+    this.initialized = true;
   }
 
   findSong(code: string): SongData | null {
+    // If not initialized, use mock songs temporarily
+    if (!this.initialized) {
+      const mockSong = mockSongs.find((s) => s.code === code);
+      return mockSong || null;
+    }
     return this.songs.get(code) || null;
   }
 
