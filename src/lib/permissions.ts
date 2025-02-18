@@ -7,16 +7,15 @@ export const requestStoragePermission = async () => {
 const requestStoragePermissionNative = async () => {
   try {
     const { Capacitor } = await import("@capacitor/core");
-    const { Permissions } = await import("@capacitor/core");
-
     if (Capacitor.getPlatform() === "android") {
+      const { Permissions } = Capacitor;
       const result = await Permissions.query({
-        name: "storage",
+        name: "storage" as any,
       });
 
       if (result.state === "prompt") {
         await Permissions.request({
-          name: "storage",
+          name: "storage" as any,
         });
       }
     }

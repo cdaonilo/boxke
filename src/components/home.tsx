@@ -155,7 +155,11 @@ const Home = () => {
 
     const nextSong = songQueue.getNextSong();
     if (nextSong) {
-      setCurrentSong(nextSong);
+      setCurrentSong({
+        ...nextSong,
+        verse: nextSong.verse || "",
+        tone: 0,
+      });
       setQueue(songQueue.getQueue());
     } else {
       setCurrentSong(null);
@@ -169,7 +173,7 @@ const Home = () => {
 
   return (
     <div className="relative min-h-screen bg-black text-white">
-      <div className="absolute top-2 left-2 text-xs text-gray-500">v2.1</div>
+      <div className="absolute top-2 left-2 text-xs text-gray-500">v3.0</div>
       <AnimatedBackground isActive={!isPlaying} />
 
       {!isPlaying && !showScore && (

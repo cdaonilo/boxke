@@ -12,12 +12,12 @@ export class SongQueue {
   private queue: QueuedSong[] = [];
 
   constructor() {
-    this.loadQueue();
+    this.loadQueue().catch(console.error);
   }
 
-  private loadQueue() {
+  private async loadQueue() {
     try {
-      const content = storage.readFile("musicas.txt");
+      const content = await storage.readFile("musicas.txt");
       if (content) {
         this.queue = content
           .split("\n")
