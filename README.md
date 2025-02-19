@@ -1,30 +1,75 @@
-# React + TypeScript + Vite
+# MXQ Karaoke
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Um aplicativo de karaokê profissional desenvolvido especificamente para o MXQ 4K Pro, permitindo que os usuários insiram códigos de músicas e reproduzam vídeos de karaokê de um dispositivo de armazenamento externo.
 
-Currently, two official plugins are available:
+## Características
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Interface profissional de karaokê
+- Suporte a armazenamento externo USB
+- Sistema de créditos
+- Fila de músicas
+- Menu de configurações (tecla F)
+- Exibição de pontuação
+- Controles de vídeo completos
+- Animações e efeitos visuais
+- Otimizado para TV Box MXQ 4K Pro
 
-## Expanding the ESLint configuration
+## Requisitos
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Flutter SDK
+- Android SDK
+- MXQ 4K Pro ou dispositivo Android compatível
+- Armazenamento externo para arquivos de karaokê
 
-- Configure the top-level `parserOptions` property like this:
+## Configuração
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+1. Clone o repositório:
+```bash
+git clone https://github.com/seu-usuario/mxq-karaoke.git
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+2. Instale as dependências:
+```bash
+flutter pub get
+```
+
+3. Execute o aplicativo:
+```bash
+flutter run
+```
+
+## Build
+
+Para gerar o APK de release:
+```bash
+flutter build apk --release
+```
+
+O APK será gerado em: `build/app/outputs/flutter-apk/app-release.apk`
+
+## Estrutura do Projeto
+
+```
+lib/
+  ├── main.dart
+  ├── models/
+  │   └── song.dart
+  ├── screens/
+  │   └── home_screen.dart
+  ├── services/
+  │   └── song_library.dart
+  └── widgets/
+      ├── animated_background.dart
+      ├── credits_display.dart
+      ├── error_message.dart
+      ├── info_bar.dart
+      ├── numeric_input.dart
+      ├── queue_display.dart
+      ├── score_display.dart
+      ├── settings_menu.dart
+      └── video_player.dart
+```
+
+## Licença
+
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
