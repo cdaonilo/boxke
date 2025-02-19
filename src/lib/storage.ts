@@ -9,7 +9,10 @@ export interface StorageAdapter {
 
 class LocalStorageAdapter implements StorageAdapter {
   private async readExternalStorage(path: string): Promise<string | null> {
-    if (!Capacitor.isNativePlatform()) return null;
+    // Check if external storage is enabled in settings
+    const useExternalStorage =
+      localStorage.getItem("useExternalStorage") === "true";
+    if (!useExternalStorage || !Capacitor.isNativePlatform()) return null;
 
     try {
       const { Filesystem, Directory } = await import("@capacitor/filesystem");

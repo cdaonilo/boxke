@@ -27,6 +27,7 @@ const SettingsMenu = ({
   const [autoplay, setAutoplay] = useState(true);
   const [highQuality, setHighQuality] = useState(true);
   const [useCustomBackground, setUseCustomBackground] = useState(false);
+  const [useExternalStorage, setUseExternalStorage] = useState(false);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -124,24 +125,46 @@ const SettingsMenu = ({
                     />
                   </div>
 
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span>Use Custom Background</span>
-                      <Switch
-                        checked={useCustomBackground}
-                        onCheckedChange={(checked) => {
-                          setUseCustomBackground(checked);
-                          localStorage.setItem(
-                            "useCustomBackground",
-                            checked.toString(),
-                          );
-                        }}
-                      />
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span>Use External Storage</span>
+                        <Switch
+                          checked={useExternalStorage}
+                          onCheckedChange={(checked) => {
+                            setUseExternalStorage(checked);
+                            localStorage.setItem(
+                              "useExternalStorage",
+                              checked.toString(),
+                            );
+                          }}
+                        />
+                      </div>
+                      <p className="text-sm text-gray-400">
+                        Enable to read karaoke files from external USB drive.
+                        Requires db.ini file in root.
+                      </p>
                     </div>
-                    <p className="text-sm text-gray-400">
-                      Press F to toggle settings. Place background.jpg in public
-                      folder to use custom background.
-                    </p>
+
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span>Use Custom Background</span>
+                        <Switch
+                          checked={useCustomBackground}
+                          onCheckedChange={(checked) => {
+                            setUseCustomBackground(checked);
+                            localStorage.setItem(
+                              "useCustomBackground",
+                              checked.toString(),
+                            );
+                          }}
+                        />
+                      </div>
+                      <p className="text-sm text-gray-400">
+                        Press F to toggle settings. Place background.jpg in
+                        public folder to use custom background.
+                      </p>
+                    </div>
                   </div>
                 </div>
 
