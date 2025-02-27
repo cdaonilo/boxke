@@ -4,27 +4,31 @@ import 'screens/home_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Força modo paisagem
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
   ]);
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   
-  runApp(const KaraokeApp());
+  // Esconde a barra de status
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+
+  runApp(const MyApp());
 }
 
-class KaraokeApp extends StatelessWidget {
-  const KaraokeApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MXQ Karaoke',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: Colors.black,
+      theme: ThemeData(
+        brightness: Brightness.dark,
         primaryColor: Colors.blue,
-        colorScheme: const ColorScheme.dark(),
+        scaffoldBackgroundColor: Colors.black,
       ),
       home: const HomeScreen(),
     );
