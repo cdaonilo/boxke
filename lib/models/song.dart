@@ -4,34 +4,32 @@ class Song {
   final String title;
   final String verse;
   final String videoUrl;
-  final String filename;
+  final int tone;
 
   const Song({
     required this.code,
     required this.artist,
     required this.title,
-    required this.verse,
+    this.verse = '',
     required this.videoUrl,
-    required this.filename,
+    this.tone = 0,
   });
 
-  factory Song.fromJson(Map<String, dynamic> json) {
+  Song copyWith({
+    String? code,
+    String? artist,
+    String? title,
+    String? verse,
+    String? videoUrl,
+    int? tone,
+  }) {
     return Song(
-      code: json['code'] as String,
-      artist: json['artist'] as String,
-      title: json['title'] as String,
-      verse: json['verse'] as String,
-      videoUrl: json['videoUrl'] as String,
-      filename: json['filename'] as String,
+      code: code ?? this.code,
+      artist: artist ?? this.artist,
+      title: title ?? this.title,
+      verse: verse ?? this.verse,
+      videoUrl: videoUrl ?? this.videoUrl,
+      tone: tone ?? this.tone,
     );
   }
-
-  Map<String, dynamic> toJson() => {
-    'code': code,
-    'artist': artist,
-    'title': title,
-    'verse': verse,
-    'videoUrl': videoUrl,
-    'filename': filename,
-  };
 }
